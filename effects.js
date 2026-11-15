@@ -41,4 +41,23 @@
   document.querySelector('.console').addEventListener('click',energyState);
   document.getElementById('reset').addEventListener('click',energyState);energyState();
   document.addEventListener('visibilitychange',()=>{root.classList.toggle('tab-inactive',document.hidden)});
+  for (let i=0;i<2;i++){const meteor=document.createElement('span');meteor.className='meteor'+(i?' second':'');meteor.setAttribute('aria-hidden','true');stars.append(meteor)}
+  const finePointer=matchMedia('(pointer: fine)');
+  document.querySelectorAll('.roadmap-grid article,.component-detail,.principles article').forEach(card=>{
+    card.classList.add('spotlight-card');
+    card.addEventListener('pointermove',e=>{if(paused||reduced.matches||!finePointer.matches)return;const box=card.getBoundingClientRect();card.style.setProperty('--spot-x',(e.clientX-box.left)+'px');card.style.setProperty('--spot-y',(e.clientY-box.top)+'px')},{passive:true});
+  });
+  document.addEventListener('click',e=>{
+    if(paused||reduced.matches)return;
+    const button=e.target.closest('.btn,.nav-cta,.base-controls button,.reset');if(!button)return;
+    const box=button.getBoundingClientRect(),ripple=document.createElement('span');ripple.className='click-ripple';ripple.setAttribute('aria-hidden','true');
+    ripple.style.left=(e.detail?e.clientX-box.left:box.width/2)+'px';ripple.style.top=(e.detail?e.clientY-box.top:box.height/2)+'px';button.append(ripple);
+    // Also remove when an animation is interrupted by the pause control.
+    setTimeout(()=>ripple.remove(),650);
+  });
+  const progress=document.createElement('div');progress.className='scroll-progress';progress.setAttribute('aria-hidden','true');document.body.append(progress);
+  let progressFrame=0;
+  function updateProgress(){progressFrame=0;const distance=root.scrollHeight-innerHeight;progress.style.transform='scaleX('+(distance>0?Math.min(1,Math.max(0,scrollY/distance)):0)+')'}
+  function requestProgress(){if(!progressFrame)progressFrame=requestAnimationFrame(updateProgress)}
+  addEventListener('scroll',requestProgress,{passive:true});addEventListener('resize',requestProgress);updateProgress();
 })();
