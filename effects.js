@@ -5,17 +5,19 @@
   try { paused = paused || localStorage.getItem('lunar-motion-paused') === 'true'; } catch {}
   const control = document.createElement('button');
   control.type = 'button'; control.className = 'motion-control';
-  control.setAttribute('aria-label', 'ანიმაციების შეჩერება');
+  control.setAttribute('aria-label', window.LunarI18n.t("ანიმაციების შეჩერება"));
   document.body.append(control);
   let detailAnimation;
   function syncMotion() {
+    control.setAttribute('aria-label', window.LunarI18n.t('ანიმაციების შეჩერება'));
     root.classList.toggle('motion-paused', paused || reduced.matches);
     control.setAttribute('aria-pressed', String(paused || reduced.matches));
-    control.textContent = paused || reduced.matches ? 'ანიმაციები შეჩერებულია' : 'ანიმაციების შეჩერება';
+    control.textContent = paused || reduced.matches ? window.LunarI18n.t("ანიმაციები შეჩერებულია") : window.LunarI18n.t("ანიმაციების შეჩერება");
     control.disabled = reduced.matches;
     if (paused || reduced.matches) detailAnimation?.cancel();
   }
   control.addEventListener('click', () => { paused = !paused; try { localStorage.setItem('lunar-motion-paused', String(paused)); } catch {} syncMotion(); });
+  document.addEventListener("lunar-language-change", syncMotion);
   reduced.addEventListener('change', syncMotion); syncMotion();
   const stars = document.createElement('div'); stars.className = 'starfield'; stars.setAttribute('aria-hidden', 'true');
   for(let i = 0; i < 42; i++) { const star = document.createElement('i'); star.style.left = ((i * 61 + 13) % 100) + '%'; star.style.top = ((i * 37 + 7) % 91) + '%'; star.style.setProperty('--duration', (5 + i % 7) + 's'); star.style.setProperty('--delay', -(i % 9) + 's'); stars.append(star); }

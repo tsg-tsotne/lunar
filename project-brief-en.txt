@@ -1,0 +1,28 @@
+LUNARSYNC — PROJECT BRIEF
+
+LunarSync is an educational prototype for capturing, monitoring and managing solar energy for lunar bases.
+
+OBJECTIVE
+The system demonstrates automatic solar panel orientation, panel voltage monitoring and independent lighting control for two model bases.
+
+MAIN COMPONENTS
+• Arduino Nano — the control core.
+• Four LDR sensors — comparison of light direction.
+• Two 28BYJ-48 stepper motors — horizontal and vertical movement.
+• Solar panel and voltage sensor — energy capture and monitoring.
+• Two model lunar bases with LED lighting.
+• Bluetooth module and a mobile app built with MIT App Inventor.
+
+TESTED CAPABILITIES
+Solar tracker movement and independent or simultaneous lighting control for the bases over Bluetooth.
+
+REMAINING WORK
+A complete dust detection algorithm and automatic distribution of actual energy. Voltage changes alone cannot conclusively identify dust.
+
+FUTURE IDEAS
+Current and power measurements with an INA219 sensor; measurement history; modelling energy reserves and base priorities.
+
+WEBSITE SIMULATOR
+The simulator is illustrative and does not connect to a physical device. Relative output = light level × (1 − dust percentage / 100) × cos(the angle between the light and panel). When the tracker is on, the angle difference is assumed to be zero. The base buttons change only the lighting state. This is not a model of actual power, consumption or battery storage.
+
+The prototype has not been certified or tested for operation in the lunar environment.
